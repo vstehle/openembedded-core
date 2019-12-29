@@ -88,6 +88,8 @@ EXTRA_OECMAKE_append_class-nativesdk = "\
 
 CXXFLAGS_append_class-target_powerpc = " -mlongcall"
 
+CFLAGS += "-fcommon"
+
 do_configure_prepend() {
 # Fix paths in llvm-config
 	sed -i "s|sys::path::parent_path(CurrentPath))\.str()|sys::path::parent_path(sys::path::parent_path(CurrentPath))).str()|g" ${S}/tools/llvm-config/llvm-config.cpp

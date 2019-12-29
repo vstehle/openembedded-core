@@ -8,6 +8,8 @@ SRC_URI += "file://musl-arm-inb-outb.patch \
 SRC_URI[md5sum] = "c4841cc24b79420205d082fe82e0a650"
 SRC_URI[sha256sum] = "fe0fd493ebe93bfc56bede382fa204458ff5f636ea54d413a5d1bd58e19166ee"
 
+CFLAGS += "-fcommon"
+
 # These extensions are now integrated into the server, so declare the migration
 # path for in-place upgrades.
 

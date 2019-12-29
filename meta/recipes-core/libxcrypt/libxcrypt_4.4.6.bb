@@ -29,6 +29,8 @@ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
 TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error=missing-attributes"
 CPPFLAGS_append_class-nativesdk = " -Wno-error=missing-attributes"
 
+CFLAGS += "-fcommon"
+
 API = "--disable-obsolete-api"
 EXTRA_OECONF += "${API}"
 

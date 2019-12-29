@@ -43,6 +43,8 @@ PACKAGECONFIG_class-target ??= "tcp-wrappers"
 PACKAGECONFIG ??= ""
 PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
 
+CFLAGS += "-fcommon"
+
 do_install_prepend () {
     mkdir -p ${D}${bindir}
     install -d ${D}${bindir} ${D}${mandir}/man1
