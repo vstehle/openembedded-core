@@ -1,0 +1,47 @@
+From d02cafce8dd29df0309935beefbfbca1d8e29862 Mon Sep 17 00:00:00 2001
+From: Paul Floyd <paulf@free.fr>
+Date: Wed, 18 Nov 2020 12:49:20 -0400
+Subject: [PATCH] helgrind: Intercept libc functions
+
+Signed-off-by: Paul Floyd <paulf@free.fr>
+
+PTH_FUNC definition needs to be modified in order to
+intercept posix threa functions in both libc and
+libpthread. In order to handle this in helgrind, weak alias
+the pthread functions in glibc.
+
+Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
+
+Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=428909]
+
+---
+ helgrind/hg_intercepts.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/helgrind/hg_intercepts.c b/helgrind/hg_intercepts.c
+index a10c3a4a3..4b571bef9 100644
+--- a/helgrind/hg_intercepts.c
++++ b/helgrind/hg_intercepts.c
+@@ -77,6 +77,11 @@
+ /*---                                                          ---*/
+ /*----------------------------------------------------------------*/
+ 
++#define hg_expand(tok) #tok
++#define hg_str(tok) hg_expand(tok)
++# define hg_weak_alias(name, aliasname) \
++  extern __typeof (name) aliasname __attribute__ ((weak, alias(hg_str(name))))
++
+ #if defined(VGO_solaris)
+ /* On Solaris, libpthread is just a filter library on top of libc.
+  * Threading and synchronization functions in runtime linker are not
+@@ -93,6 +98,7 @@
+ #else
+ #define PTH_FUNC(ret_ty, f, args...) \
+    ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args); \
++   hg_weak_alias(I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f), I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBC_SONAME,f)); \
+    ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args)
+ #define CREQ_PTHREAD_T pthread_t
+ #define SEM_ERROR errno
+-- 
+2.17.1
+
