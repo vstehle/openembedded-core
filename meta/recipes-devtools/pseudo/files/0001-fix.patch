@@ -1,0 +1,29 @@
+From 1bdcae214b32387e594f0a3660faefdc35718468 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Vincent=20Stehl=C3=A9?= <vincent.stehle@arm.com>
+Date: Fri, 20 Nov 2020 16:27:44 +0100
+Subject: [PATCH] fix
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Vincent Stehlé <vincent.stehle@arm.com>
+---
+ pseudo_ipc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pseudo_ipc.h b/pseudo_ipc.h
+index caeae5c..d945257 100644
+--- a/pseudo_ipc.h
++++ b/pseudo_ipc.h
+@@ -29,7 +29,7 @@ typedef struct {
+ 	char path[];
+ } pseudo_msg_t;
+ 
+-enum {
++typedef enum {
+ 	PSA_EXEC = 1,
+ 	PSA_WRITE = (PSA_EXEC << 1),
+ 	PSA_READ = (PSA_WRITE << 1),
+-- 
+2.29.2
+
